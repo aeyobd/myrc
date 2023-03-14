@@ -70,7 +70,7 @@ export ZSH="$HOME/.oh-my-zsh"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git archlinux command-not-found vi-mode zsh-autosuggestions zsh-syntax-highlighting git-prompt z)
+plugins=(git archlinux command-not-found vi-mode zsh-autocomplete zsh-syntax-highlighting git-prompt z)
 
 VI_MODE_SET_CURSOR=true
 
