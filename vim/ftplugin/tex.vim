@@ -4,10 +4,6 @@ au User VimtexEventInitPost call vimtex#compiler#compile()
 autocmd CursorHold,CursorHoldI * update
 set updatetime=3000
 
-" for inkscape drawings
-"inoremap <C-f> <Esc>: silent exec '.!inkscape-figures create "'.getline('.').'" "'.b:vimtex.root.'/figures/"'<CR><CR>:w<CR>
-"nnoremap <C-f> : silent exec '!inkscape-figures edit "'.b:vimtex.root.'/figures/" > /dev/null 2>&1 &'<CR><CR>:redraw!<CR>
-
 "Plug 'lervag/vimtex'
 let g:tex_flavor='latex'
 let g:vimtex_view_method='zathura'
