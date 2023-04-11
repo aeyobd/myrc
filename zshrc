@@ -70,7 +70,7 @@ export ZSH="$HOME/.oh-my-zsh"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git archlinux command-not-found vi-mode zsh-autocomplete zsh-syntax-highlighting git-prompt z)
+plugins=(git archlinux zsh-autosuggestions command-not-found vi-mode zsh-syntax-highlighting git-prompt z)
 
 VI_MODE_SET_CURSOR=true
 
@@ -105,6 +105,8 @@ export ARCHFLAGS="-arch x86_64"
 # PS1=%{$fg_bold[green]%}%p %{$fg_bold[blue]%}%c $(git_prompt_info)% %{$fg_bold[green]%} $ %{$reset_color%}
 
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=7"
+ZSH_AUTOSUGGEST_STRATEGY=(match_prev_cmd completion)
+
 setopt nobeep
 
 # for git hook
@@ -123,6 +125,7 @@ zstyle ':vcs_info:*' unstagedstr ' *'
 zstyle ':vcs_info:*' stagedstr ' +'
 zstyle ':vcs_info:git:*' formats       '(%b%u%c)'
 zstyle ':vcs_info:git:*' actionformats '(%b|%a%u%c)'
+
 
 PS1='%F{magenta}%~%f %(!.%B#%b.%F{blue}%B❯%b%f) '
 PS2=$'%1_>'
@@ -152,3 +155,15 @@ zle -N zle-keymap-select
 # see https://github.com/zsh-users/zsh-syntax-highlighting/blob/master/docs/highlighters/main.md
 
 ZSH_HIGHLIGHT_STYLES[path]='fg=magenta'
+
+# autocomplete style
+#
+
+export PYTHONDONTWRITEBYTECODE=1
+
+# zstyle ':autocomplete:recent-dirs' backend zsh-z
+# zstyle ':autocomplete:*' widget-style menu-complete
+# zstyle ':autocomplete:*' insert-unambiguous yes
+# 
+# zle -A {.,}history-incremental-search-forward
+# zle -A {.,}history-incremental-search-backward
