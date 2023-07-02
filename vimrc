@@ -2,8 +2,7 @@
 set nocompatible              
 filetype off                 
 set encoding=utf-8
-filetype plugin on
-filetype indent on
+
 
 
 
@@ -11,15 +10,23 @@ filetype indent on
 
 set number		
 set relativenumber
-set signcolumn=number
+
+if has("nvim-0.5.0") || has("patch-8.1.1564") 
+    set signcolumn=number
+endif
 
 set noshowmode
+
+
+" setup for yadi
+autocmd BufRead * DetectIndent
+filetype plugin indent on
 
 set tabstop=4 softtabstop=4 shiftwidth=4 autoindent
 set expandtab smarttab
 
+
 set undofile
-set undodir=~/.vim/undo
 
 set mouse=a
 set splitright
@@ -30,33 +37,51 @@ set foldlevel=99
 
 set timeoutlen=1000
 set clipboard=unnamedplus
+set smartcase
+
+" set term=kitty
 
 
-set term=kitty
 
 " -------------------- Plugins --------------------
 call plug#begin('~/.vim/autoload/')
 
-" YCM Hook
-function! BuildYCM(info)
-    if a:info.status == 'installed' || a:info.force
-        !./install.py
-    endif
-endfunction
+Plug 'sonph/onehalf', {'rtp': 'vim/'}
 
-if has("patch-8.1.2269")
-    Plug 'ycm-core/YouCompleteMe', { 'do': function('BuildYCM') }
+if v:version >= 801
+    Plug 'SirVer/ultisnips'
+
+    " CMP Plugins
+    Plug 'quangnguyen30192/cmp-nvim-ultisnips'
+    Plug 'neovim/nvim-lspconfig'
+    Plug 'hrsh7th/cmp-nvim-lsp'
+    Plug 'hrsh7th/cmp-buffer'
+    Plug 'hrsh7th/cmp-omni'
+    Plug 'hrsh7th/cmp-path'
+    Plug 'hrsh7th/cmp-cmdline'
+    Plug 'hrsh7th/nvim-cmp'
+
+    Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+    Plug 'lukas-reineke/indent-blankline.nvim'
 endif
 
-Plug 'SirVer/ultisnips'
+
 Plug 'rhysd/vim-grammarous', { 'on': 'GrammarousCheck' }
+Plug 'timakro/vim-yadi'
 
 " Plug 'vim-airline/vim-airline-themes'
-" Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline'
 Plug 'dense-analysis/ale'
 
+" language specific
 Plug 'lervag/vimtex'
 Plug 'JuliaEditorSupport/julia-vim', {'for': 'julia'}
+
+Plug 'vim-pandoc/vim-pandoc'
+Plug 'vim-pandoc/vim-pandoc-syntax'
+" Plug 'vim-pandoc/vim-rmarkdown'
+Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
+
 
 
 call plug#end()
@@ -77,7 +102,8 @@ set termguicolors
 syntax on
 set bg=dark
 colorscheme onehalfdark
-" let g:airline_theme='onehalfdark'
+let g:airline_theme='onehalfdark'
+set completeopt=menu,menuone,noselect
 
 
 " -------------------- Package options --------------------
@@ -94,107 +120,18 @@ let g:ale_virtualtext_cursor = 'disabled'
 let g:ale_warn_about_trailing_blank_lines = 0
 let g:ale_warn_about_trailing_whitespace = 0
 let g:ale_lsp_show_message_severity = 'error'
-let g:ycm_min_num_of_chars_for_completion = 99
 
 " AIRLINE
-" let g:airline#extensions#ale#enabled = 1
-" silent! call airline#extensions#whitespace#disable()
-" let g:airline_section_z  =  "%l/%L:%c
-" let g:airline_section_y  =  "
+let g:airline#extensions#ale#enabled = 1
+silent! call airline#extensions#whitespace#disable()
+let g:airline_section_z  =  "%l/%L:%c"
+let g:airline_section_y  =  ""
 
-" YCM
-let g:ycm_autoclose_preview_window_after_completion = 1
-let g:ycm_autoclose_preview_window_after_insertion = 1
+let g:pandoc#folding#fdc = 0
+
+let g:mkdp_auto_start = 0
 
 
-" -------------------- Statusline -----------------
-"
-"
-hi NormalStatus ctermbg=green ctermfg=black cterm=bold
-hi InsertStatus ctermbg=blue ctermfg=black cterm=bold
-hi VisualStatus ctermbg=magenta ctermfg=black cterm=bold
-hi ReplaceStatus ctermbg=red ctermfg=black cterm=bold
-hi StatusLine ctermbg=black ctermfg=green
-
-hi NormalStatus1 ctermbg=green ctermfg=black
-hi InsertStatus1 ctermbg=blue ctermfg=black
-hi VisualStatus1 ctermbg=magenta ctermfg=black
-hi ReplaceStatus1 ctermbg=red ctermfg=black
-hi StatusLine1 ctermbg=black ctermfg=green
-
-hi NormalStatus2 ctermbg=black ctermfg=green 
-hi InsertStatus2 ctermfg=blue ctermbg=black 
-hi VisualStatus2 ctermfg=magenta ctermbg=black 
-hi ReplaceStatus2 ctermfg=red ctermbg=black 
-hi StatusLine2 ctermfg=black ctermbg=green
-
-let s:statusline_modes = {
-    \ 'n': 'NORMAL',
-    \ 'i': 'INSERT',
-    \ 'R': 'REPLACE',
-    \ 'v': 'VISUAL',
-    \ 'V': 'V-LINE',
-    \ '\<C-v>': 'V-BLOCK',
-    \ 'c': 'COMMAND',
-    \ 's': 'SELECT',
-    \ 'S': 'S-LINE',
-    \ '\<C-s>': 'S-BLOCK',
-    \ 't': 'TERM',
-    \}
-
-let s:statusline_cgroup = {
-    \ 'n': 'NormalStatus',
-    \ 'i': 'InsertStatus',
-    \ 'R': 'ReplaceStatus',
-    \ 'v': 'VisualStatus',
-    \ 'V': 'VisualStatus',
-    \ '\<C-v>': 'VisualStatus',
-    \ 'c': 'NormalStatus',
-    \ 's': 'VisualStatus',
-    \ 'S': 'VisualStatus',
-    \ '\<C-s>': 'VisualStatus',
-    \ 't': 'NormalStatus',
-    \}
-
-function Get_current_mode_text ()
-    let md = mode()
-    if (has_key (s:statusline_modes, md))
-        return s:statusline_modes[md]
-    endif
-    return md
-endfunction
-
-function Get_color(numb)
-    let md = mode()
-    if (has_key (s:statusline_cgroup, md))
-        return "%#" . s:statusline_cgroup[md] . a:numb . "#"
-    endif
-    return "%#StatusLine#"
-endfunction
-
-function! TlSpell() " {{{ 
-  " Returns spell state   
-  return &spell ? '[spell]' : ''
-endfunction    
-
-set laststatus=2
-set statusline=
-set statusline+=%{%Get_color('')%}\ 
-set statusline+=%{Get_current_mode_text()}\ 
-set statusline+=%{%Get_color('1')%}
-set statusline+=%{TlSpell()}
-set statusline+=%{%Get_color('2')%}\ 
-set statusline+=%f
-set statusline+=%{&modified?'[+]':''}
-set statusline+=%=
-set statusline+=%y
-set statusline+=\ 
-set statusline+=%{%Get_color('1')%}\ 
-set statusline+=%l
-set statusline+=/
-set statusline+=%L\:
-set statusline+=%c
-set statusline+=\ 
 
 
 " -------------------- Keymaps --------------------
@@ -217,24 +154,145 @@ nnoremap <Leader>l :set relativenumber! <cr> :set number! <cr>
 nnoremap <Leader>t :call TabToggle() <cr>
 nnoremap <Leader>s :setlocal spell! spelllang=en_us<cr>
 nnoremap <silent><expr> <Leader>h (&hls && v:hlsearch ? ':nohls' : ':set hls')."\n"
+nnoremap <Leader>d :call ddc#disable() <cr>
 
 
 function TabToggle()
   if &expandtab
-    set shiftwidth=8
-    set softtabstop=0
-	set tabstop=8
     set noexpandtab
-	set noautoindent
-	set nosmarttab
+    IndentTabs
   else
-    set shiftwidth=4
-    set softtabstop=4
-	set tabstop=4
     set expandtab
-	set autoindent
-	set smarttab
+    IndentSpaces
   endif
 endfunction
 
 
+
+
+
+" -------------------- cmp ------------------------
+lua <<EOF
+  -- Set up nvim-cmp.
+local cmp = require'cmp'
+
+
+cmp.setup({
+    snippet = {
+        expand = function(args)
+            vim.fn["UltiSnips#Anon"](args.body) 
+        end,
+    },
+    confirmation = {
+        get_commit_characters = function(commit_characters)
+            return {}
+        end
+    },
+    preselect = cmp.PreselectMode.None,
+    mapping = cmp.mapping({
+        ['C-s'] = cmp.mapping.complete({
+        config = {
+            sources = {
+                { name = 'ultisnips' }
+            }
+            }
+        }),
+        ['<C-b>'] = cmp.mapping.scroll_docs(-4),
+        ['<C-f>'] = cmp.mapping.scroll_docs(4),
+        ['<C-space>'] = cmp.mapping.complete(),
+        ['<C-cr>'] = cmp.mapping.confirm({ select = true }),
+        ['<C-e>'] = cmp.mapping.abort(),
+        -- ['<C-n>'] = cmp.select_next_item(),
+        -- ['<C-p>'] = cmp.select_prev_item(),
+    }),
+    sources = cmp.config.sources({
+        { name = 'nvim_lsp' },
+        { name = 'ultisnips' },
+        { name = 'path' },
+        { name = 'omni' },
+        { name = 'buffer' },
+    })
+    
+})
+
+cmp.setup.cmdline({ '/', '?' }, {
+    mapping = cmp.mapping({
+        ['<C-b>'] = cmp.mapping.scroll_docs(-4),
+        ['<C-f>'] = cmp.mapping.scroll_docs(4),
+        ['<C-s>'] = cmp.mapping.complete(),
+        ['<C-e>'] = cmp.mapping.abort(),
+    }),
+    preselect=cmp.PreselectMode.None,
+    sources = {
+    }
+})
+
+cmp.setup.cmdline(':', {
+    mapping = cmp.mapping({
+        ['<C-b>'] = cmp.mapping.scroll_docs(-4),
+        ['<C-f>'] = cmp.mapping.scroll_docs(4),
+        ['<C-s>'] = cmp.mapping.complete(),
+        ['<C-e>'] = cmp.mapping.abort(),
+    }),
+    preselect=cmp.PreselectMode.None,
+    sources = cmp.config.sources({
+        { name = 'path' },
+        { name = 'cmdline' }
+    })
+})
+
+cmp.setup.filetype({'markdown', 'help' }, {
+    window = {
+        documentation = cmp.config.disable
+    }
+    })
+
+
+-- require('cmp').setup.buffer {
+--     formatting = {
+--         format = function(entry, vim_item)
+--         vim_item.menu = ({
+--             omni = (vim.inspect(vim_item.menu):gsub('%"', "")),
+--             buffer = "[Buffer]",
+--             -- formatting for other sources
+--         })[entry.source.name]
+--         return vim_item
+--         end,
+--     },
+--     sources = {
+--         { name = 'omni' },
+--         { name = 'buffer' },
+--     },
+-- }
+
+  -- Set configuration for specific filetype.
+cmp.setup.filetype('gitcommit', {
+    sources = cmp.config.sources({
+        { name = 'cmp_git' }, 
+        { name = 'buffer' },
+    })
+})
+
+
+
+
+
+  -- Set up lspconfig.
+local capabilities = require('cmp_nvim_lsp').default_capabilities()
+
+require'lspconfig'.jedi_language_server.setup{}
+require'lspconfig'.vimls.setup{}
+
+
+
+
+ -- lsp setup
+
+
+require("indent_blankline").setup {
+    space_char_blankline = " ",
+}
+
+
+
+EOF

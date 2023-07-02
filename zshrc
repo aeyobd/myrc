@@ -1,5 +1,5 @@
 # If you come from bash you might have to change your $PATH.
-# export PATH=$HOME/bin:/usr/local/bin:$PATH
+export PATH=$HOME/bin:/usr/local/bin:$HOME/.local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
@@ -103,6 +103,7 @@ export ARCHFLAGS="-arch x86_64"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 #
 # PS1=%{$fg_bold[green]%}%p %{$fg_bold[blue]%}%c $(git_prompt_info)% %{$fg_bold[green]%} $ %{$reset_color%}
+alias vim="nvim"
 
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=7"
 ZSH_AUTOSUGGEST_STRATEGY=(match_prev_cmd completion)
