@@ -74,6 +74,9 @@ plugins=(git archlinux zsh-autosuggestions command-not-found vi-mode zsh-syntax-
 
 VI_MODE_SET_CURSOR=true
 
+unsetopt inc_append_history
+unsetopt share_history
+
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
@@ -87,12 +90,15 @@ source $ZSH/oh-my-zsh.sh
 if [[ -n $SSH_CONNECTION ]]; then
   export EDITOR='vim'
 else
-  export EDITOR='mvim'
+  export EDITOR='vim'
 fi
 
 # Compilation flags
 export ARCHFLAGS="-arch x86_64"
 
+
+export KEYTIMEOUT=1
+export PYTHONDONTWRITEBYTECODE=1
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
 # users are encouraged to define aliases within the ZSH_CUSTOM folder.
@@ -104,8 +110,13 @@ export ARCHFLAGS="-arch x86_64"
 #
 # PS1=%{$fg_bold[green]%}%p %{$fg_bold[blue]%}%c $(git_prompt_info)% %{$fg_bold[green]%} $ %{$reset_color%}
 alias vim="nvim"
+alias rm="rm -i"
+alias cp="cp -i"
+alias mv="mv -i"
+alias lt="ls -ltr"
 
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=7"
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#5c6370"
 ZSH_AUTOSUGGEST_STRATEGY=(match_prev_cmd completion)
 
 setopt nobeep
@@ -134,7 +145,6 @@ PS2=$'%1_>'
 # RPROMPT=$'${vcs_info_msg_0_}'
 # 
 # lowers timeout
-export KEYTIMEOUT=1
 
 function zle-line-init zle-keymap-select {
     EPS1="$(git_prompt_info) %{$reset_color%} %(0?..[%?])"
@@ -157,10 +167,10 @@ zle -N zle-keymap-select
 
 ZSH_HIGHLIGHT_STYLES[path]='fg=magenta'
 
+
 # autocomplete style
 #
 
-export PYTHONDONTWRITEBYTECODE=1
 
 # zstyle ':autocomplete:recent-dirs' backend zsh-z
 # zstyle ':autocomplete:*' widget-style menu-complete
@@ -168,3 +178,5 @@ export PYTHONDONTWRITEBYTECODE=1
 # 
 # zle -A {.,}history-incremental-search-forward
 # zle -A {.,}history-incremental-search-backward
+#
+eval "$(dircolors -b ~/.config/dircolors)"
