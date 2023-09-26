@@ -13,6 +13,8 @@ set relativenumber
 
 if has("nvim-0.5.0") || has("patch-8.1.1564") 
     set signcolumn=number
+else
+    echo "old vim version, not using signcolumn"
 endif
 
 set noshowmode
@@ -48,7 +50,8 @@ call plug#begin('~/.vim/autoload/')
 
 Plug 'sonph/onehalf', {'rtp': 'vim/'}
 
-if v:version >= 801
+if v:version >= 801 && has('python3')
+
     Plug 'SirVer/ultisnips'
 
     " CMP Plugins
@@ -63,6 +66,13 @@ if v:version >= 801
 
     Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
     Plug 'lukas-reineke/indent-blankline.nvim'
+else
+    if v:version < 801 
+        echo "vim 8.0 required for advanced extensions"
+    endif
+    if !has('python3')
+        echo "python provider not found"
+    endif
 endif
 
 
@@ -169,9 +179,21 @@ endfunction
 
 
 
+function! PlugLoaded(name)
+    return (
+        \ has_key(g:plugs, a:name) &&
+        \ isdirectory(g:plugs[a:name].dir) &&
+        \ stridx(&runtimepath, trim(g:plugs[a:name].dir, "/")) >= 0)
+endfunction
 
 
-" -------------------- cmp ------------------------
+
+
+
+" ---------------- CMP configuration --------------
+if has("nvim-0.5.0") && PlugLoaded('nvim-cmp')
+
+" --------------- LUA
 lua <<EOF
   -- Set up nvim-cmp.
 local cmp = require'cmp'
@@ -296,3 +318,8 @@ require("indent_blankline").setup {
 
 
 EOF
+" ----------- END LUA ------------
+
+else
+    echo "autocomplete disabled"
+endif
