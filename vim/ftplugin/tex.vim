@@ -16,14 +16,15 @@ set textwidth=0
 
 "Plug 'lervag/vimtex'
 let g:tex_flavor='latex'
-let g:vimtex_view_method='zathura_simple'
+let g:vimtex_view_method='skim'
 let g:vimtex_quickfix_mode=0
 set conceallevel=1
 let g:tex_conceal='abdmg'
 let g:ale_linters_explicit = 1
 let g:quickfix_is_open = 0
 let maplocalleader = "\\"
-
+let g:vimtex_view_skim_sync = 1 " Value 1 allows forward search after every successful compilation
+let g:vimtex_view_skim_activate = 1 " Value 1 allows change focus to skim after command `:VimtexView` is given
 
 set foldmethod=expr
 set foldexpr=vimtex#fold#level(v:lnum)

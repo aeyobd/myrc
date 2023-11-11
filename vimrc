@@ -1,9 +1,10 @@
 " -------------------- manditory  --------------------
 set nocompatible              
-filetype off                 
 set encoding=utf-8
 
-
+" setup for yadi
+autocmd BufRead * DetectIndent
+filetype plugin indent on
 
 
 " -------------------- setings  --------------------
@@ -20,9 +21,6 @@ endif
 set noshowmode
 
 
-" setup for yadi
-autocmd BufRead * DetectIndent
-filetype plugin indent on
 
 set tabstop=4 softtabstop=4 shiftwidth=4 autoindent
 set expandtab smarttab
@@ -51,11 +49,7 @@ call plug#begin('~/.vim/autoload/')
 Plug 'sonph/onehalf', {'rtp': 'vim/'}
 
 if v:version >= 801 && has('python3')
-
-    Plug 'SirVer/ultisnips'
-
     " CMP Plugins
-    Plug 'quangnguyen30192/cmp-nvim-ultisnips'
     Plug 'neovim/nvim-lspconfig'
     Plug 'hrsh7th/cmp-nvim-lsp'
     Plug 'hrsh7th/cmp-buffer'
@@ -64,6 +58,10 @@ if v:version >= 801 && has('python3')
     Plug 'hrsh7th/cmp-cmdline'
     Plug 'hrsh7th/nvim-cmp'
 
+    Plug 'SirVer/ultisnips'
+    Plug 'quangnguyen30192/cmp-nvim-ultisnips'
+
+    Plug 'github/copilot.vim'
     Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
     Plug 'lukas-reineke/indent-blankline.nvim'
 else
@@ -191,135 +189,8 @@ endfunction
 
 
 " ---------------- CMP configuration --------------
-if has("nvim-0.5.0") && PlugLoaded('nvim-cmp')
-
-" --------------- LUA
-lua <<EOF
-  -- Set up nvim-cmp.
-local cmp = require'cmp'
-
-
-cmp.setup({
-    snippet = {
-        expand = function(args)
-            vim.fn["UltiSnips#Anon"](args.body) 
-        end,
-    },
-    confirmation = {
-        get_commit_characters = function(commit_characters)
-            return {}
-        end
-    },
-    preselect = cmp.PreselectMode.None,
-    mapping = cmp.mapping({
-        ['C-s'] = cmp.mapping.complete({
-        config = {
-            sources = {
-                { name = 'ultisnips' }
-            }
-            }
-        }),
-        ['<C-b>'] = cmp.mapping.scroll_docs(-4),
-        ['<C-f>'] = cmp.mapping.scroll_docs(4),
-        ['<C-space>'] = cmp.mapping.complete(),
-        ['<C-cr>'] = cmp.mapping.confirm({ select = true }),
-        ['<C-e>'] = cmp.mapping.abort(),
-        -- ['<C-n>'] = cmp.select_next_item(),
-        -- ['<C-p>'] = cmp.select_prev_item(),
-    }),
-    sources = cmp.config.sources({
-        { name = 'nvim_lsp' },
-        { name = 'ultisnips' },
-        { name = 'path' },
-        { name = 'omni' },
-        { name = 'buffer' },
-    })
-    
-})
-
-cmp.setup.cmdline({ '/', '?' }, {
-    mapping = cmp.mapping({
-        ['<C-b>'] = cmp.mapping.scroll_docs(-4),
-        ['<C-f>'] = cmp.mapping.scroll_docs(4),
-        ['<C-s>'] = cmp.mapping.complete(),
-        ['<C-e>'] = cmp.mapping.abort(),
-    }),
-    preselect=cmp.PreselectMode.None,
-    sources = {
-    }
-})
-
-cmp.setup.cmdline(':', {
-    mapping = cmp.mapping({
-        ['<C-b>'] = cmp.mapping.scroll_docs(-4),
-        ['<C-f>'] = cmp.mapping.scroll_docs(4),
-        ['<C-s>'] = cmp.mapping.complete(),
-        ['<C-e>'] = cmp.mapping.abort(),
-    }),
-    preselect=cmp.PreselectMode.None,
-    sources = cmp.config.sources({
-        { name = 'path' },
-        { name = 'cmdline' }
-    })
-})
-
-cmp.setup.filetype({'markdown', 'help' }, {
-    window = {
-        documentation = cmp.config.disable
-    }
-    })
-
-
--- require('cmp').setup.buffer {
---     formatting = {
---         format = function(entry, vim_item)
---         vim_item.menu = ({
---             omni = (vim.inspect(vim_item.menu):gsub('%"', "")),
---             buffer = "[Buffer]",
---             -- formatting for other sources
---         })[entry.source.name]
---         return vim_item
---         end,
---     },
---     sources = {
---         { name = 'omni' },
---         { name = 'buffer' },
---     },
--- }
-
-  -- Set configuration for specific filetype.
-cmp.setup.filetype('gitcommit', {
-    sources = cmp.config.sources({
-        { name = 'cmp_git' }, 
-        { name = 'buffer' },
-    })
-})
-
-
-
-
-
-  -- Set up lspconfig.
-local capabilities = require('cmp_nvim_lsp').default_capabilities()
-
-require'lspconfig'.jedi_language_server.setup{}
-require'lspconfig'.vimls.setup{}
-
-
-
-
- -- lsp setup
-
-
-require("indent_blankline").setup {
-    space_char_blankline = " ",
-}
-
-
-
-EOF
-" ----------- END LUA ------------
-
+if (has("nvim-0.5.0") && PlugLoaded('nvim-cmp'))
+    source ~/.config/nvim/extra.lua
 else
-    echo "autocomplete disabled"
+    
 endif

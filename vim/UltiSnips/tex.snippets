@@ -15,40 +15,40 @@ snippet beg "begin{} / end{}" b
 \end{$1}
 endsnippet 
 
-snippet abc "begin alph enumerate" bA
+snippet abc "begin alph enumerate" b
 \begin{enumerate}[(a)]
 	\item $1
 \end{enumerate}$0
 endsnippet
 
-snippet item "Itemize" bA
+snippet item "Itemize" b
 \begin{itemize}[(a)]
 	\item $1
 \end{itemize}$0
 endsnippet
 
-snippet prob "Problem" bA
+snippet prob "Problem" b
 \begin{problem}{$1}
 	$2
 \end{problem}
 $0
 endsnippet
 
-snippet sol "Solution" bA
+snippet sol "Solution" b
 \begin{solution}
 	$1
 \end{solution}
 $0
 endsnippet
 
-snippet prf "Proof" bA
+snippet prf "Proof" b
 \begin{proof}
 	$1
 \end{proof}
 $0
 endsnippet
 
-snippet mk "Math" wA
+snippet mk "Math" w
 $${1}$`!p
 if t[2] and t[2][0] not in [',', '.', '?', '-', ' ']:
     snip.rv = ' '
@@ -57,21 +57,21 @@ else:
 `$2
 endsnippet
 
-snippet dm "Math" wA
+snippet dm "Math" w
 
 \[
 	${1:${VISUAL}}
 \] $0
 endsnippet
 
-snippet bga "Align" wA
+snippet bga "Align" w
 
 \begin{align*}
 	${1:${VISUAL}}
 \end{align*}
 endsnippet
 
-snippet bgg "Gather" wA
+snippet bgg "Gather" w
 
 \begin{gather*}
 	$1
@@ -81,53 +81,53 @@ endsnippet
 
 
 context "math()"
-snippet RR "double R" wA
+snippet RR "double R" w
 \mathbb{R}
 endsnippet
 
 context "math()"
-snippet CC "double C" wA
+snippet CC "double C" w
 \mathbb{C}
 endsnippet
 
 context "math()"
-snippet ZZ "double Z" wA
+snippet ZZ "double Z" w
 \mathbb{Z}
 endsnippet
 
 context "math()"
-snippet QQ "double Q" wA
+snippet QQ "double Q" w
 \mathbb{Q}
 endsnippet
 
 context "math()"
-snippet EE "script E" wA
+snippet EE "script E" w
 \mathcal{E}
 endsnippet
 
 context "math()"
-snippet TT "script T" wA
+snippet TT "script T" w
 \mathcal{T}
 endsnippet
 
 context "math()"
-snippet II "script I" wA
+snippet II "script I" w
 \mathcal{I}
 endsnippet
 
 
 context "math()"
-snippet '([A-Za-z])(\d)' "auto subscript" wrA
+snippet '([A-Za-z])(\d)' "auto subscript" wr
 `!p snip.rv = match.group(1)`_`!p snip.rv = match.group(2)`
 endsnippet
 
 context "math()"
-snippet '([A-Za-z])_(\d\d)' "auto subscript2" wrA
+snippet '([A-Za-z])_(\d\d)' "auto subscript2" wr
 `!p snip.rv = match.group(1)`_{`!p snip.rv = match.group(2)`}
 endsnippet
 
 context "math()"
-snippet '([A-Za-z]_\d)\^(\d)' "auto subscript power" wrA
+snippet '([A-Za-z]_\d)\^(\d)' "auto subscript power" wr
 {`!p snip.rv = match.group(1) `}^`!p snip.rv = match.group(2)`
 endsnippet
 
@@ -147,7 +147,7 @@ snippet compl "complement" i
 endsnippet
 
 context "math()"
-snippet // "Fraction" iA
+snippet // "Fraction" i
 \\frac{$1}{$2}$0
 endsnippet
 
@@ -157,13 +157,13 @@ snippet / "Fraction" i
 endsnippet
 
 context "math()"
-snippet '((\d+)|(\d*)(\\)?([A-Za-z]+)((\^|_)(\{\d+\}|\d))*)/' "Fraction" wrA
+snippet '((\d+)|(\d*)(\\)?([A-Za-z]+)((\^|_)(\{\d+\}|\d))*)/' "Fraction" wr
 \\frac{`!p snip.rv = match.group(1)`}{$1}$0
 endsnippet
 
 context "math()"
 priority 1000
-snippet '^.+\)/' "() Fraction" wrA
+snippet '^.+\)/' "() Fraction" wr
 `!p
 stripped = match.string[:-1]
 depth = 0
@@ -239,7 +239,7 @@ snippet "(.*)\\bra{(.*?)}([^\|]*?)\>" "braket" ri
 endsnippet
 
 context "math()"
-snippet () "left( right)" iA
+snippet () "left( right)" i
 \left( ${1:${VISUAL}} \right) $0
 endsnippet
 
@@ -274,17 +274,17 @@ snippet lr[ "left[ right]" i
 endsnippet
 
 context "math()"
-snippet lra "leftangle rightangle" iA
+snippet lra "leftangle rightangle" i
 \left<${1:${VISUAL}} \right>$0
 endsnippet
 
 context "math()"
-snippet (( "Parns" wA
+snippet (( "Parns" w
 \left( $1 \right) $0
 endsnippet
 
 context "math()"
-snippet [[ "Parns" wA
+snippet [[ "Parns" w
 \left[ $1 \right] $0
 endsnippet
 
@@ -293,55 +293,55 @@ snippet "{{" "Parns" w
 \left{ $1 \right} $0
 endsnippet
 
-snippet ... "Dots" wA
+snippet ... "Dots" w
 \ldots
 endsnippet
 
 context "math()"
-snippet abb "Subscript" iA
+snippet abb "Subscript" i
 \_\{ $1\} sfutd $0
 endsnippet
 
 context "math()"
-snippet ^^ "Superscript" iA
+snippet ^^ "Superscript" i
 ^{$1}$0
 endsnippet
 
 context "math()"
-snippet ddx "derivative" wA
+snippet ddx "derivative" w
 \fract{d}{dx}
 endsnippet
 
-snippet lim "limit" wA
+snippet lim "limit" w
 \\lim_\{ ${1:hi} \\to ${2:\infty} \} $0
 endsnippet
 
 context "math()"
-snippet prod "product" wA
+snippet prod "product" w
 \\prod_\{$1\}^\{$2\} $0
 endsnippet
 
 context "math()"
-snippet int "integral" wA
+snippet int "integral" w
 \int_{${1:n}}^{${2:\infty}} ${3:${VISUAL}} d${4:x} $0
 endsnippet
 
-snippet test "test" iA
+snippet test "test" i
 a\{$1\}$0
 endsnippet
 
 context "math()"
-snippet sq "\sqrt{}" iA
+snippet sq "\sqrt{}" i
 \sqrt{${1:${VISUAL}}} $0
 endsnippet
 
 context "math()"
-snippet uuu "bigcup" iA
+snippet uuu "bigcup" i
 \bigcup_{${1:i \in ${2: I}}} $0
 endsnippet
 
 context "math()"
-snippet nnn "bigcap" iA
+snippet nnn "bigcap" i
 \bigcap_{${1:i \in ${2: I}}} $0
 endsnippet
 
@@ -352,35 +352,35 @@ endsnippet
 
 
 context "math()"
-snippet "([a-zA-Z0-9})])([+-])" "plus" irA
+snippet "([a-zA-Z0-9})])([+-])" "plus" ir
 `!p snip.rv = match.group(1) + " " + match.group(2)` $0
 endsnippet
 
 priority 100
 context "math()"
-snippet "([^&])=" "equals" irA
+snippet "([^&])=" "equals" ir
 `!p snip.rv = match.group(1)` = $0
 endsnippet
 
 priority 1000
 context "math()"
-snippet >= "equals" iA
+snippet >= "equals" i
  \geq 
 endsnippet
 
 priority 1000
 context "math()"
-snippet <= "equals" iA
+snippet <= "equals" i
  \leq  
 endsnippet
 
 context "math()"
-snippet tt "text" iA
+snippet tt "text" i
 \text{$1}$0
 endsnippet
 
 context "math()"
-snippet case "cases" wA
+snippet case "cases" w
 \begin{cases}
 	$1
 \end{cases}

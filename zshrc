@@ -1,5 +1,5 @@
 # If you come from bash you might have to change your $PATH.
-export PATH=$HOME/bin:/usr/local/bin:$HOME/.local/bin:$PATH
+
 
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
@@ -109,7 +109,7 @@ export PYTHONDONTWRITEBYTECODE=1
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 #
 # PS1=%{$fg_bold[green]%}%p %{$fg_bold[blue]%}%c $(git_prompt_info)% %{$fg_bold[green]%} $ %{$reset_color%}
-alias vim="nvim"
+# alias vim="vim"
 alias rm="rm -i"
 alias cp="cp -i"
 alias mv="mv -i"
@@ -165,7 +165,7 @@ zle -N zle-keymap-select
 # change highlighting defaults ... 
 # see https://github.com/zsh-users/zsh-syntax-highlighting/blob/master/docs/highlighters/main.md
 
-ZSH_HIGHLIGHT_STYLES[path]='fg=magenta'
+# ZSH_HIGHLIGHT_STYLES[path]='fg=magenta'
 
 
 # autocomplete style
@@ -179,4 +179,29 @@ ZSH_HIGHLIGHT_STYLES[path]='fg=magenta'
 # zle -A {.,}history-incremental-search-forward
 # zle -A {.,}history-incremental-search-backward
 #
-eval "$(dircolors -b ~/.config/dircolors)"
+# eval "$(dircolors -b ~/.config/dircolors)"
+
+
+
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/Users/daniel/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/Users/daniel/miniconda3/etc/profile.d/conda.sh" ]; then
+        . "/Users/daniel/miniconda3/etc/profile.d/conda.sh"
+    else
+        export PATH="/Users/daniel/miniconda3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
+
+
+export PATH=$PATH:$HOME/bin:/usr/local/bin:$HOME/.local/bin
+
+alias s="kitty +kitten ssh"
+
+alias vim="nvim"
