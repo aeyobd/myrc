@@ -4,21 +4,23 @@ local cmp = require'cmp'
 
 -- main setupt options
 cmp.setup({
+
     snippet = { -- snippet engine
         expand = function(args)
             vim.fn["UltiSnips#Anon"](args.body) 
         end,
     },
-    window = {
-        -- completion = cmp.config.window.bordered()
+
+    window = { -- completion = cmp.config.window.bordered()
     },
+
     mapping = cmp.mapping({
-        ['C-s'] = cmp.mapping.complete({
-        config = {
-            sources = {
-                { name = 'ultisnips' }
-            }
-            }
+        ['<c-s>'] = cmp.mapping.complete({
+            config = {
+                sources = {
+                    { name = 'ultisnips' }
+                }
+                }
         }),
         ['<c-b>'] = cmp.mapping.scroll_docs(-4),
         ['<c-f>'] = cmp.mapping.scroll_docs(4),
@@ -29,7 +31,8 @@ cmp.setup({
             if cmp.visible() then
                 cmp.select_next_item()
             else
-                fallback()
+                cmp.complete()
+                -- fallback()
             end
         end,
         ['<c-p>'] = function(fallback)
@@ -40,24 +43,33 @@ cmp.setup({
             end
         end,
     }),
+
     confirmation = {
         get_commit_characters = function(commit_characters)
             return {}
         end
     },
-    preselect = cmp.PreselectMode.None,
+
     sources = cmp.config.sources({
         { name = 'nvim_lsp' },
         { name = 'ultisnips' },
         { name = 'path' },
         { name = 'omni' },
-        { name = 'buffer' },
     }),
+
+    preselect = cmp.PreselectMode.None,
+
     view = {
         entries = "custom",
     },
+
+    completion = {
+        autocomplete = false
+    }
     
 })
+
+
 
 -- set options for vim search
 cmp.setup.cmdline({ '/', '?' }, {
@@ -88,6 +100,7 @@ cmp.setup.cmdline(':', {
     })
 })
 
+
 -- markdown 
 cmp.setup.filetype({'markdown', 'help' }, {
     window = {
@@ -111,8 +124,9 @@ cmp.setup.filetype('gitcommit', {
   -- Set up lspconfig.
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
+-- rewuires jedi-language-server
+-- pip install jedi-language-server
 require'lspconfig'.jedi_language_server.setup{}
 require'lspconfig'.vimls.setup{}
-
 
 

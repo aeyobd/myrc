@@ -12,11 +12,11 @@ filetype plugin indent on
 set number		
 set relativenumber
 
+
 if has("nvim-0.5.0") || has("patch-8.1.1564") 
     set signcolumn=number
-else
-    echo "old vim version, not using signcolumn"
 endif
+
 
 set noshowmode
 
@@ -62,7 +62,7 @@ if v:version >= 801 && has('python3')
     Plug 'quangnguyen30192/cmp-nvim-ultisnips'
 
     Plug 'github/copilot.vim'
-    Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+    " Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
     Plug 'lukas-reineke/indent-blankline.nvim'
 else
     if v:version < 801 
@@ -143,8 +143,8 @@ let g:mkdp_auto_start = 0
 
 
 " -------------------- Keymaps --------------------
-"
-"
+
+
 nnoremap \ <Leader>
 
 " fold with space bar
@@ -190,7 +190,7 @@ endfunction
 
 " ---------------- CMP configuration --------------
 if (has("nvim-0.5.0") && PlugLoaded('nvim-cmp'))
-    source ~/.config/nvim/extra.lua
+    source ~/.vim/setup.lua
 else
     
 endif
