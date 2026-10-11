@@ -35,6 +35,35 @@ If you want to launch e.g. a jupyter server, you will need to forward the port o
 ssh -L local_port:destination_server_ip:remote_port ssh_server_hostname
 ```
 
+Additionally, set this in bashrc to autostart ssh-agent (source: https://web.archive.org/web/20210506080335/https://mah.everybody.org/docs/ssh)
+
+```
+SSH_ENV="$HOME/.ssh/environment"
+
+function start_agent {
+     echo "Initialising new SSH agent..."
+     /usr/bin/ssh-agent | sed 's/^echo/#echo/' > "${SSH_ENV}"
+     echo succeeded
+     chmod 600 "${SSH_ENV}"
+     . "${SSH_ENV}" > /dev/null
+     /usr/bin/ssh-add;
+}
+
+# Source SSH settings, if applicable
+
+if [ -f "${SSH_ENV}" ]; then
+     . "${SSH_ENV}" > /dev/null
+     #ps ${SSH_AGENT_PID} doesn't work under cywgin
+     ps -ef | grep ${SSH_AGENT_PID} | grep ssh-agent$ > /dev/null || {
+         start_agent;
+     }
+else
+     start_agent;
+fi
+```
+
+
+
 ### RSync
 
 Sometimes it is helpful to rsync to transfer files between servers.
@@ -45,7 +74,15 @@ Sometimes it is helpful to rsync to transfer files between servers.
 rsync -av -e "ssh -p 2233 -i ~/.ssh/sangiovese" orbit1 dboyea@sangiovese.phys.uvic.ca:/arc7/home/dboyea
 ```
 
-Then we can shasum to determine any differences `sha256sum <(find . -type f -exec sha256sum {} \; | sort)`
+Then we can shasum to determine any differences 
+
+```
+sha256sum <(find . -type f -exec sha256sum {} \; | sort)
+```
+
+
+
+
 
 ##  Github
 
@@ -67,6 +104,18 @@ Github has a nice little website to set these up. https://docs.github.com/en/aut
 ```
 
 
+
+### Basic reference
+
+` git diff` 
+
+
+
+### branches
+
+
+
+`git checkout`
 
 ## Code modules
 
@@ -143,6 +192,12 @@ sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.
 `````bash
 pip install pynvim, jedi-language-server
 `````
+
+```
+npm install -g vim-language-server
+```
+
+
 
 add these lines to `.config/nvim/init.vim` so nvim uses vimrc
 
