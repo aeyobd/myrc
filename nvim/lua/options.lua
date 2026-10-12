@@ -1,25 +1,14 @@
-
--- set nocompatible              
--- set encoding=utf-8
 -- filetype plugin indent on
-
--- set undofile
-
--- set splitright
--- set splitbelow
--- set backspace=indent,eol,start
--- set foldmethod=indent
--- set foldlevel=99
-
--- set timeoutlen=1000
 -- set smartcase
 
+-- visual
 vim.opt.number = true
 vim.opt.relativenumber = true
 vim.opt.signcolumn = 'number'
 vim.opt.splitbelow = true
 vim.opt.splitright = true
 vim.opt.showmode = false
+vim.opt.guicursor = 'a:blinkon100'
 
 -- tabs
 vim.opt.tabstop = 8 
@@ -29,5 +18,15 @@ vim.opt.expandtab = true
 vim.opt.smarttab = true
 vim.opt.autoindent = true
 
-vim.opt.clipboard = 'unnamedplus'
+-- functionality
 vim.opt.mouse = 'a'
+vim.opt.undofile = true 
+vim.opt.timeoutlen = 1000
+
+
+vim.diagnostic.config({
+  virtual_text = true,
+  severity_sort = true,
+  float = { border = 'rounded' },
+})
+
